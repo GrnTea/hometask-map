@@ -1,4 +1,18 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
+  margin-left: 25%;
   text-align: center;
 }
 
@@ -36,3 +50,34 @@
     transform: rotate(360deg);
   }
 }
+aside{
+  position: fixed;
+  width: 10%;
+  height: 20%;
+  margin: 20px;
+  padding: 5px;
+  text-align: left;
+  font-size: 16px;
+  color: #33C3F0;
+  border: 2px solid;
+}
+aside h1 {
+  font-size: 16px;
+}
+form{
+  margin: 5px 5% 0 25%;
+
+}
+input{
+  padding: 6px 10px;
+  background-color: #fff;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+/*.map {*/
+/*  margin-left: 20%;*/
+/*  height: 70%;*/
+/*  width: 500px;*/
+/*}*/
