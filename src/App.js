@@ -1,10 +1,11 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import './styles/App.css';
 import './styles/normalize.css';
 import './styles/skeleton.css';
 //import Sidebar from './components/Sidebar.js';
 import Form from './form.js';
-import MapContainer from './components/map.js';
+// import MapContainer from './components/map.js';
+import ChartContainer from './components/chart.js';
 import {
     BrowserRouter as Router,
     Switch,
@@ -29,7 +30,7 @@ export default function App() {
 
                   <Switch>
                       <Route path="/map">
-                        <MapContainer />
+                        <ChartContainer />
                       </Route>
                       <Route path="/form">
                         <Form />

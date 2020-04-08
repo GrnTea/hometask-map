@@ -11,91 +11,88 @@ class Form extends React.Component {
         this.state = {
             data: [],
             name: '',
-            quantity: '',
-            lat: '',
-            lng: '',
+            code: '',
+            quantity: undefined,
             sum: 0
         };
     }
     handleNameChange = (e) => {
         const name = e.target.value;
-        this.setState({name: name});
-        //console.log(name);
+        //console.log(e, name);
+        this.setState({name});
+
     };
     handleQuantityChange = (e) => {
         const quantity = Number(e.target.value);
-        this.setState({quantity: quantity});
+        this.setState({quantity});
         //console.log(quantity);
     };
 
     handleSubmit = (e) =>{
         e.preventDefault();
-        const countries = this.state.data;
-        console.log(countries);
+        const postData = {
+             country:'',
+             users:''
+         };
+         const countries = this.state.data;
+         
+        countries.map((country) => 
+            (this.state.name === country.name)
+              ? (postData.country = country.alpha3Code)&&(console.log(postData.country))
+              : null
+        );
+                
+        postData.users = this.state.quantity;
+        console.log(postData);
 
-        var countriesArray = [];
-        for(var i=0; i<countries.length; i++){
-            countriesArray.push([countries[i].name, countries[i].latlng[0], countries[i].latlng[1]]);
-        }
-        console.log(countriesArray);
+        //const countriesRaw = this.state.data;
+        //let countries = countriesRaw.map((country) => [country.name, country.latlng[0], country.latlng[1]]);
+        // let countries = countriesRaw.map((country) => [country.name]);
 
 
-        for(var j=0; j<countriesArray.length; j++){
-            if(this.state.name === countriesArray[j][0]){
-                console.log(countriesArray[j][0]+' '+countriesArray[j][1]+' '+countriesArray[j][2]);
-                this.setState({
-                    lat: countriesArray[j][1],
-                    lng: countriesArray[j][2]})
-
-
-                fetch('http://13.69.54.84:9000/llusers',{
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        country:'',
-                        users:'',
-                    })
-                }).then(response => {
-                    console.log(response)
-                }).catch(error =>{
-                        console.log(error)
-                })
-            }
-        }
+         fetch('http://13.69.54.84:9000/users',{
+             method: 'POST',
+             headers: {
+                 'Content-Type': 'application/json',
+             },
+             body: JSON.stringify(postData)
+         }).then(response => {
+             console.log(response)
+         }).catch(error =>{
+             console.log(error)
+         })               
+                    
 
         this.setState((state) =>{
             return {sum: state.sum + state.quantity}
         });
-    };
+    } 
 
-    componentDidMount() {
-        // fetch(`https://maps.googleapis.com/maps/api/js?key=AIzaSyC83vznz3gUClEydE5rCLTUyGOFQxRNbl8&callback=initMap`)
-        // fetch(`https://api.coinmarketcap.com/v1/ticker/?limit=10`)
-        //<script src="https://maps.googleapis.com/maps/api/js?language=ru&amp;key=AIzaSyBrokbs-nVSf7IWlbEFfgaWDWxzet-_sKs"></script>
+
+    componentDidMount(){
         fetch('https://restcountries.eu/rest/v2/all')
             .then(res => res.json())
                 .then(json => this.setState({
-                    data: json })
+                    data: json})
                 )
                 .catch(console.log);
 
     }
-    render() {
 
+    countriesList() {
+        //console.log(this.state);
         const countries = this.state.data;
+        return (
+            countries.map((country) =>
+                <option key={country.alpha2Code} value={country.name}>
+                    {country.name}
+                </option>
+            )
+        );
+    }
 
-        const select = document.getElementById('select');
-
-        countries.forEach(country=>{
-            const option = document.createElement('option');
-            const optionValue = option.value;
-
-            option.appendChild(document.createTextNode(country.name));
-            select.appendChild(option);
-        });
+    render() {
+        // console.log(this.state.data);
 
         const quantity = document.getElementById('quantity');
 
@@ -112,6 +109,7 @@ class Form extends React.Component {
                         id="select"
                         className="u-full-width" >
                         <option value="">--Select a country--</option>
+                        {this.countriesList()}
                     </select>
                     <label>Number of users in the country</label>
                     <input
@@ -120,7 +118,7 @@ class Form extends React.Component {
                         id="quantity"
                         className="u-full-width"
                         placeholder="--Enter the number of users--"
-                        value={this.state.quantity}
+                        // value={this.state.quantity}
                     />
                     <input
                         className="button-primary u-full-width"
@@ -137,3 +135,11 @@ export default Form;
 
 
 //const {country} = this.state;
+        // countries.map((country) =>{
+        //     if(this.state.name===country){
+        //         console.log(country);
+        //         console.log("Hello from map");
+        //         postData.country = country
+        //         postData.users = this.state.quantity
+        //     }
+        // })
