@@ -11,46 +11,45 @@ class ChartContainer extends React.Component{
   }
 
   componentDidMount(){
-      const getData = {
-          country:'',
-          users:''
-    };
       fetch('http://13.69.54.84:9000/users')
               .then(res => res.json())
                   .then(json => this.setState({
                       chartData: json})
                   )
                   .catch(console.log);
-                      
-
-    getData.country = this.state.chartData.country;
-    getData.users = this.state.chartData.users;
-    console.log(getData);
-    };
-
-  
+  };
 
   render(){
-
     console.log(this.state.chartData);
-        //console.log(getData);
-
 
     const chartPost = this.state.chartData;
-    
-    let countryMap = chartPost.map((country) => [country.country, country.users]);
+    let countryMap = chartPost.map(country => [country.country, country.users]);
 
     console.log('countryMap', countryMap);
+    //countryMap = [['Country', 'Amount']].concat(countryMap);
 
-    
+    const countriesFiltered = [];
+
+    function filterMockingData(country){
+      if(country.country.length == 3){
+        return countriesFiltered.push(country)&&(console.log('from filter', country[0]))
+      }
+    }
+
+    countryMap.filter(country => filterMockingData);
+
+    console.log(countryMap);
+    console.log(countriesFiltered);
+
     return(
       <div className="chart-container">
         <Chart
           width={'750px'}
           height={'450px'}
           chartType="GeoChart"
-          data={['Country', 'Popularity'],
-                ['BLR', 1000],
+          data={
+            // ['Country', 'Popularity'],
+            //     ['BLR', 1000],
                 countryMap}
           mapsApiKey='AIzaSyC83vznz3gUClEydE5rCLTUyGOFQxRNbl8'
           rootProps={{ 'data-testid': '1' }}

@@ -4,14 +4,12 @@ import './styles/skeleton.css';
 //import ReactDOM from "react-dom";
 //import { Map, GoogleApiWrapper } from 'google-maps-react';
 
-//fetch the names of the countries//
 class Form extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             data: [],
             name: '',
-            code: '',
             quantity: undefined,
             sum: 0
         };
@@ -34,23 +32,28 @@ class Form extends React.Component {
              country:'',
              users:''
          };
-         const countries = this.state.data;
-         
-        countries.map((country) => 
-            (this.state.name === country.name)
-              ? (postData.country = country.alpha3Code)&&(console.log(postData.country))
-              : null
-        );
-                
+        
+        function filteredByName(country){
+            if(this.state.name === country.name){
+               return ((postData.country = country.alpha3Code)&&(console.log(postData.country)))
+            }
+        };
+
+        const countries = this.state.data;
+
+        countries.filter(country => filteredByName)
+            
         postData.users = this.state.quantity;
         console.log(postData);
+        console.log(this.state.name);
+
 
         //const countriesRaw = this.state.data;
         //let countries = countriesRaw.map((country) => [country.name, country.latlng[0], country.latlng[1]]);
         // let countries = countriesRaw.map((country) => [country.name]);
 
 
-         fetch('http://13.69.54.84:9000/users',{
+         fetch('http://13.69.54.84:9000/llusers',{
              method: 'POST',
              headers: {
                  'Content-Type': 'application/json',
@@ -68,7 +71,6 @@ class Form extends React.Component {
         });
     } 
 
-
     componentDidMount(){
         fetch('https://restcountries.eu/rest/v2/all')
             .then(res => res.json())
@@ -76,7 +78,6 @@ class Form extends React.Component {
                     data: json})
                 )
                 .catch(console.log);
-
     }
 
     countriesList() {
@@ -94,7 +95,6 @@ class Form extends React.Component {
     render() {
         // console.log(this.state.data);
 
-        const quantity = document.getElementById('quantity');
 
         return (
             <form onSubmit={this.handleSubmit}>
@@ -125,21 +125,9 @@ class Form extends React.Component {
                         type="submit"
                         value="Submit"
                          />
-
                 </div>
             </form>
         );
     }
 }
 export default Form;
-
-
-//const {country} = this.state;
-        // countries.map((country) =>{
-        //     if(this.state.name===country){
-        //         console.log(country);
-        //         console.log("Hello from map");
-        //         postData.country = country
-        //         postData.users = this.state.quantity
-        //     }
-        // })
