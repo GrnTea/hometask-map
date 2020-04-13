@@ -20,26 +20,25 @@ class ChartContainer extends React.Component{
   };
 
   render(){
-    console.log(this.state.chartData);
+    console.log('this.state.chartData',this.state.chartData);
 
     const chartPost = this.state.chartData;
-    let countryMap = chartPost.map(country => [country.country, country.users]);
+    let countryMap = [];
+    if (chartPost.length) {
+      countryMap = chartPost
+        //.forEach(_ => console.log(_))
+        .filter(country => country.country && country.country.length === 3)
+        .map(country => [country.country, country.users])
 
-    console.log('countryMap', countryMap);
-    //countryMap = [['Country', 'Amount']].concat(countryMap);
-
-    const countriesFiltered = [];
-
-    function filterMockingData(country){
-      if(country.country.length == 3){
-        return countriesFiltered.push(country)&&(console.log('from filter', country[0]))
-      }
     }
+    // country.country = undefined == null -> falsy
+    // && => first false or last expr
+    // || => first true or last expr
+    // , => sequentatly returns expressions
 
-    countryMap.filter(country => filterMockingData);
-
-    console.log(countryMap);
-    console.log(countriesFiltered);
+    countryMap = [['Country', 'Popularity']].concat(countryMap);
+    console.log('countryMap', countryMap);
+    // diff forEach vs map (мутирующий и немутирующий метод)
 
     return(
       <div className="chart-container">
@@ -47,10 +46,9 @@ class ChartContainer extends React.Component{
           width={'750px'}
           height={'450px'}
           chartType="GeoChart"
-          data={
+          data={countryMap}
             // ['Country', 'Popularity'],
-            //     ['BLR', 1000],
-                countryMap}
+            // ['BLR', 1000]
           mapsApiKey='AIzaSyC83vznz3gUClEydE5rCLTUyGOFQxRNbl8'
           rootProps={{ 'data-testid': '1' }}
         />

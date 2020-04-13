@@ -33,27 +33,20 @@ class Form extends React.Component {
              users:''
          };
         
-        function filteredByName(country){
-            if(this.state.name === country.name){
-               return ((postData.country = country.alpha3Code)&&(console.log(postData.country)))
-            }
-        };
-
         const countries = this.state.data;
 
-        countries.filter(country => filteredByName)
+        countries.filter(country => country.name === this.state.name)
+                    .map(country => postData.country = country.alpha3Code)
+            //filteredByName)
             
         postData.users = this.state.quantity;
-        console.log(postData);
-        console.log(this.state.name);
+        
+        console.log('postData', postData);
+        console.log('this.state.name',this.state.name);
 
+      
 
-        //const countriesRaw = this.state.data;
-        //let countries = countriesRaw.map((country) => [country.name, country.latlng[0], country.latlng[1]]);
-        // let countries = countriesRaw.map((country) => [country.name]);
-
-
-         fetch('http://13.69.54.84:9000/llusers',{
+         fetch('http://13.69.54.84:9000/users',{
              method: 'POST',
              headers: {
                  'Content-Type': 'application/json',
