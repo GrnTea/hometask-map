@@ -1,0 +1,72 @@
+import React from "react";
+import Chart from "react-google-charts";
+import {connect} from 'react-redux';
+import '../styles/App.css';
+
+class ChartContainer extends React.Component{
+  constructor(props) {
+        super(props);
+  }
+
+
+  render(){
+    console.log('this.props.chart', this.props);
+    console.log('this.state.chart', this.state);
+    const localStorageData = JSON.parse(localStorage.getItem('items'));
+
+    const countryMap = [['Country', 'Popularity']].concat(localStorageData);
+
+    return(
+      <div className="chart-container">
+        <Chart
+          width={'750px'}
+          height={'450px'}
+          chartType="GeoChart"
+          data={countryMap}
+          mapsApiKey='AIzaSyC83vznz3gUClEydE5rCLTUyGOFQxRNbl8'
+          rootProps={{ 'data-testid': '1' }}
+        />
+      </div>
+    )
+  }
+} 
+////
+const mapStateToProps = state  => ({
+    chart: state.counter.chart
+})
+
+export default connect(
+    mapStateToProps,
+)(ChartContainer)
+
+
+
+
+//export default ChartContainer;
+// componentDidMount(){
+  //     fetch('http://13.69.54.84:9000/users')
+  //             .then(res => res.json())
+  //                 .then(json => this.setState({
+  //                     chartData: json})
+  //                 )
+  //                 .catch(console.log);
+  // };
+
+
+// const chartPost = this.state.chartData;
+    // let countryMap = [];
+    // if (chartPost.length) {
+    //   countryMap = chartPost
+    //     //.forEach(_ => console.log(_))
+    //     .filter(country => country.country && country.country.length === 3)
+    //     .map(country => [country.country, country.users])
+
+    // }
+    // // country.country = undefined == null -> falsy
+    // // && => first false or last expr
+    // // || => first true or last expr
+    // // , => sequentatly returns expressions
+
+    // countryMap = [['Country', 'Popularity']].concat(countryMap);
+    // console.log('countryMap', countryMap);
+    // // diff forEach vs map (мутирующий и немутирующий метод)

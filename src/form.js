@@ -42,9 +42,7 @@ class Form extends React.Component {
         postData.users = this.state.quantity;
         
         console.log('postData', postData);
-        console.log('this.state.name',this.state.name);
-
-      
+        console.log('this.state.name', this.state.name);
 
          fetch('http://13.69.54.84:9000/users',{
              method: 'POST',

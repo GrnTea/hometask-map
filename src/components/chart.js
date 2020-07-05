@@ -58,6 +58,9 @@ class ChartContainer extends React.Component{
 } 
 
 export default ChartContainer;
+
+
+
 // countryMap = [['Country', 'Amount']].concat(countryMap);
 
 // ['Country', 'Popularity'],
